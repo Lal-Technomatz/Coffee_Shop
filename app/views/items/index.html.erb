@@ -1,0 +1,21 @@
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" class='border' >Name</th>
+        <th scope="col" class='border' >Price</th>
+        <th scope="col" class='border' >Action</th>
+      </tr>
+    </thead>
+    <% @items.each do |item| %>
+      <tbody>
+          <tr >
+            <th scope="col" class='border' ><%= item.name %></th>
+            <td scope="col" class='border' ><%= item.price %></td>
+            <td scope="col" class='border' ><%= link_to "Show this item", item %></td>
+          </tr>
+      </tbody>
+    <%end%>
+  </table>
+</div>
+

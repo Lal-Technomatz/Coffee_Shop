@@ -1,0 +1,18 @@
+ <div class='nested-feilds'>
+  <div class="card" style="width: 18rem ">
+    <div class="card-body">
+      <div class="field" data-raju = <%= Discount.pluck(:base_item_id) %>>
+        <%= order_form.label :item %><br>
+        <%= order_form.collection_select(:item_id, Item.available, 'id', 'name',  {prompt: 'Select Item'}, {class: "select"}) %>
+        <%= content_tag "div", id: "discounts", data: {discounts: Discount.pluck(:base_item_id), disc_quant: Discount.pluck(:base_item_quantity) } do %>
+        <% end %>
+      </div>
+      <div class="field" id="onchange">
+        <%= order_form.label :quantity %><br>
+        <%= order_form.number_field :quantity, class: 'quantity' %>
+      </div>
+      <%#= order_form.label :destroy, as: :hidden %>
+      <%= link_to 'Remove Item', '#', class: 'remove_order_item' %>
+    </div>
+  </div>
+ </div>
