@@ -1,3 +1,3 @@
 class TaxCategory < ApplicationRecord
-    has_many :item, dependent: :destroy
+    has_many :items, dependent: :destroy
 end

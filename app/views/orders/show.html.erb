@@ -26,9 +26,9 @@
         <tr >
           <th scope="col" class='border'><%= order_item.item.name %></th>
           <td scope="col" class='border' ><%= order_item.item.price %></td>
-          <td scope="col" class='border' ><%= order_item.item.tax_percent %></td>
+          <td scope="col" class='border' ><%= order_item.item.tax_category.tax_rate %></td>
           <td scope="col" class='border' ><%= order_item.quantity %></td>
-          <td scope="col" class='border' ><%= '%.2f' % order_item.tax_value %></td>
+          <td scope="col" class='border' ><%= order_item.tax_value %></td>
           <td scope="col" class='border' ><%= order_item.total_price %></td>
         </tr>
       <% end %>

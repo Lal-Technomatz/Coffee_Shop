@@ -7,13 +7,14 @@ class Order < ApplicationRecord
 
 	# calculate save_grand_total
 	def save_grand_total
+		# debugger
     tax = order_items.sum(:tax_value)
     total = order_items.sum(:total_price)
     sum = tax + total
 		return if grand_total == sum
-    tax = order_items.sum(:tax_value)
-    total = order_items.sum(:total_price)
-    sum = tax + total
+    # tax = order_items.sum(:tax_value)
+    # total = order_items.sum(:total_price)
+    # sum = tax + total
 		update(grand_total: sum)
 	end
 end

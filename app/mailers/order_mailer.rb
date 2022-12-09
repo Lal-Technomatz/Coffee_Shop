@@ -2,7 +2,7 @@ class OrderMailer < ApplicationMailer
   def send_order_mail(order)
     @order = order
 
-    mail(to:"atomar@technomatz.com" ,from:"atomar@technomatz.com",subject:"#{@order.id}",message:"hello")
+    mail(to:"amantomar@gmail.com" ,from:"atomar@technomatz.com",subject:"#{@order.id}",message:"hello")
     
     # @view_context = view_context
 
