@@ -53,7 +53,7 @@ class OrdersController < ApplicationController
 				order_item.total_price = remaining_order_item_total
         dis_order_items.clear()
       end
-    end      
+    end
 
 		respond_to do |format|
 			if @order.save
@@ -68,6 +68,36 @@ class OrdersController < ApplicationController
 
 	# PATCH/PUT /items/1 or /items/1.json
 	def update
+		dis_order_items = {}
+    order_items = @order.order_items
+    order_items.each do |oi|
+      discount = Discount.find_by(base_item_id: oi.item_id)
+      if discount.present? && oi.quantity >= discount.base_item_quantity
+				nub_of_tym_dis_applied = oi.quantity / discount.base_item_quantity
+        dis_order_items[discount.child_item_id] = [discount.id, nub_of_tym_dis_applied]
+      end
+			total = oi.item.price * oi.quantity
+			tax = (oi.item.tax_category.tax_rate.to_f * total ) / 100
+			oi.tax_value = tax
+      oi.total_price = total
+    end
+    if dis_order_items.present?
+      dis_order_items.each do |item_id, discount_data|
+				
+				order_item = order_items.select { |oi| oi.item_id == item_id }.first
+				discount, discount_multiplier = discount_data
+				dis_data = Discount.find(discount)
+				discount_quantity = dis_data.child_item_quantity
+				total_quantity = order_item.quantity
+        remaining_quantity = total_quantity - (discount_quantity*discount_multiplier)
+        remaining_order_item_total = order_item.item.price * remaining_quantity
+        d_order_item_total = order_item.item.price * discount_quantity * dis_data.discount_percent/100
+				tax = (order_item.item.tax_category.tax_rate.to_f * remaining_order_item_total ) / 100 
+				order_item.tax_value = tax
+				order_item.total_price = remaining_order_item_total
+        dis_order_items.clear()
+      end
+    end
 		respond_to do |format|
 			if @order.update(order_params)	
 				format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
